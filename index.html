@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+   <meta charset="UTF-8">
+  <title>Site Protegido</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-color: #fdfaf6;
+      color: #3b3b3b;
+    }
+
+    #senhaContainer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: #fdfaf6;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #senhaContainer h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #5e5e3e;
+    }
+
+    input[type="password"] {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 250px;
+      max-width: 90%;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 24px;
+      background-color: #7c9a7e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #6a876c;
+    }
+
+    #conteudo {
+      display: none;
+    }
+  </style>
+<!-- Plyr CSS -->
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+<link rel="stylesheet" href="style.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="description" content="João & Maria vão se casar! Acompanhe os detalhes, confirme presença, veja nossa história e contribua com presentes ou cotas da lua de mel.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    body{
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe4wci7HS6Ryb5I3oZPepCPigro4OfMwjvIQ&usqp=CAU');
+  background-repeat: repeat;
+  background-size: contain;
+  background-attachment: fixed; /* Faz o fundo ficar fixo */
+  background-position: center;
+  background-color: white; /* Fundo base branco */
+}
+ body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(250, 240, 230, 0.7); /* transparência sobre a imagem */
+    z-index: 0;
+  }
+  * {
+    position: relative;
+    z-index: 1;
+  }
+   body {
+  position: static; /* ou remova se não for necessário */
+  overflow-x: hidden; /* sem bloquear y */
+}
+</style>
+</head>
+<body>
+
+
+<div id="senhaContainer">
+  <h1>Bem vindo(a)</h1>
+   <h3>Ao site do nosso casamento!</h3>
+   <h2>Digite a senha para entrar no site</h2>
+<a4>(a senha esta no convite😉)</a4>
+  <input type="password" id="senha" placeholder="Senha">
+  <br>
+  <button onclick="verificarSenha()">Entrar</button>
+</div>
+
+<div class="wave-background">
+  <svg viewBox="0 0 1440 320">
+    <path fill="#ffffff" fill-opacity="1" d="M0,160L60,176C120,192,240,224,360,218.7C480,213,600,171,720,165.3C840,160,960,192,1080,213.3C1200,235,1320,245,1380,250.7L1440,256L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+  </svg>
+</div>
+
+ <!-- Botão hambúrguer -->
+<div id="hamburger" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</div>
+
+<!-- Menu lateral com seus links -->
+<nav id="sideMenu">
+  <ul>
+    <li><a href="#historia"onclick="closeMenu()">Informaçoes</a></li> 
+    <li><a href="#detalhes"onclick="closeMenu()">Detalhes</a></li>
+    <li><a href="#presentes"onclick="closeMenu()">Presentes</a></li>
+    <li><a href="#rsvp" onclick="closeMenu();">RSVP</a></li>
+  </ul>
+</nav>
+
+<!-- Fundo escuro para fechar o menu -->
+<div id="overlay" onclick="closeMenu()"></div>
+
+<style>
+
+/* Fundo escuro */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none; /* Oculto por padrão */
+  z-index: 1000;
+}
+
+
+/* Overlay visível */
+#overlay.show {
+  display: block;
+}
+
+</style>
+
+<section id="hero" class="d-flex align-items-center">
+  <div class="container py-5">
+  <div class="row justify-content-center align-items-center text-center">
+    
+    <!-- Título -->
+    <div class="col-12 mb-4">
+      <h1 class="display-4">Ela disse sim!</h1>
+      <p class="lead text-muted">João e Maria — 30.08.2025</p>
+    </div>
+    
+    <!-- Vídeo vertical -->
+    <div class="col-lg-6 d-flex justify-content-center">
+      <div class="reels-wrapper w-100" style="max-width: 360px;">
+        <div class="rounded-4 shadow overflow-hidden" style="aspect-ratio: 9/16; width: 100%; margin: auto;">
+          <iframe 
+            src="https://player.vimeo.com/video/1099169917?autoplay=1&muted=1&loop=1&background=1"
+            frameborder="0"
+            allowfullscreen 
+            allow="autoplay; fullscreen"
+            style="width: 100%; height: 100%; border: none;">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <style>
+h1 {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+h1::first-letter {
+  font-size: 150%;
+  color: #D4AF7F; /* Um vermelho suave */
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+}
+
+.wave-background {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 300px;
+  z-index: -1;
+  animation: waveMove 10s ease-in-out infinite alternate;
+}
+
+.wave-background svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes waveMove {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50px);
+  }
+}
+
+@media (max-width: 768px) {
+  #hero .row {
+    flex-direction: column-reverse;
+  }
+
+  #hero .col-lg-6 {
+    width: 100%;
+    padding: 1rem 0;
+  }
+}
+
+.wave-background {
+  display: none !important;
+}
+
+    /* Botão hambúrguer */
+    #hamburger {
+      font-size: 30px;
+      cursor: pointer;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      color: #000;
+    }
+
+    /* Menu lateral */
+    #sideMenu {
+      position: fixed;
+      right: -300px;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+      transition: right 0.3s ease;
+      z-index: 1002;
+      padding: 60px 20px 20px;
+    }
+
+    #sideMenu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #sideMenu li {
+      margin-bottom: 20px;
+    }
+
+    #sideMenu a {
+      text-decoration: none;
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* Overlay (fundo escuro) */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+
+    .reels-wrapper {
+      width: 270px;
+      height: 480px;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .reels-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    /* Estilo para celulares */
+    @media (max-width: 600px) {
+      .menu { flex-direction: column; }
+      .banner { font-size: 1.2rem; }
+    }
+
+    /* Estilo para tablets */
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .menu { flex-direction: row; }
+    }
+
+    /* Estilo para desktops */
+    @media (min-width: 1025px) {
+      .menu { justify-content: space-between; }
+    }
+
+    .card {
+      max-width: 100%;
+      width: 90%;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* RSVP Modal centralizado */
+    #rsvpModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Conteúdo do modal */
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+   #fecharRSVP {
+  background: #6b8e23;
+  color: white;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: none;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+#fecharRSVP:hover {
+  background-color: #88b14b;
+}
+
+    body.rsvp-ativo #hamburger {
+      display: none;
+    }
+  </style>
+</section>
+    
+
+    
+
+  <section id="historia" data-aos="zoom-in">
+    <h2 class="section-title">Informações</h2>
+    <p style="max-width:700px;margin:auto;text-align:center;">
+      Criamos esse site para compartilhar com vocês os detalhes da organização do nosso casamento. Estamos muito felizes e contamos com a presença de todos no nosso grande dia! Aqui você encontrará também dica para trajes. Ah, é importante também confirmar sua presença. Para isto contamos com sua ajuda clicando no menu “Confirme sua Presença” e preenchendo os dados necessários. Para nos presentear, escolha qualquer item da Lista de Casamento, seja um item de algum site, lojas físicas, ou então você pode usar a opção de cotas. Fiquem à vontade! Aguardamos vocês no nosso grande dia!
+    </p>
+  </section>
+
+<section class="contagem-regressiva" id="contador" data-aos="slide-left">
+  <h2>CONTAGEM REGRESSIVA</h2>
+  <div class="contador">
+    <div class="bloco">
+      <span id="dias">00</span>
+      <small>DIAS</small>
+    </div>
+    <div class="bloco">
+      <span id="horas">00</span>
+      <small>HORAS</small>
+    </div>
+    <div class="bloco">
+      <span id="minutos">00</span>
+      <small>MINUTOS</small>
+    </div>
+    <div class="bloco">
+      <span id="segundos">00</span>
+      <small>SEGUNDOS</small>
+    </div>
+  </div>
+</section>
+
+
+  <section id="detalhes" data-aos="fade-up">
+    <h2 class="section-title">Detalhes do Casamento</h2>
+    <p style="text-align:center;">Data: 30 de agosto de 2025<br>Local: Chácara Paraíso<br>Horario: 16:00</p>
+    <div class="traje-box">
+      <p>Traje <strong>social</strong> para todos os convidados.<br>
+       <strong>Padrinhos e madrinhas:</strong> (usar traje indicado abaixo).</p>
+   <div class="imagens-traje" style="display: flex; justify-content: center; gap: 20px;">
+  <div class="imagem-traje">
+    <img src="imagem1.jpg" alt="Traje Padrinho" class="zoom-img" style="width: 300px; height: auto;">
+    <p style="text-align: center;">Traje para Padrinho</p>
+  </div>
+  <div class="imagem-traje">
+    <img src="imagem2.jpg" alt="Traje Madrinha" class="zoom-img" style="width: 300px; height: auto;">
+    <p style="text-align: center;">Traje para Madrinha</p>
+  </div>
+
+<!-- OVERLAY PARA EXPANSÃO -->
+<div id="zoomOverlay" class="zoom-overlay" onclick="fecharZoom()">
+  <img id="zoomImagem" src="" alt="Zoom">
+</div>
+
+<style>
+  .zoom-img {
+    width: 300px;
+    height: auto;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  .zoom-img:hover {
+    transform: scale(1.05);
+  }
+
+  .zoom-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .zoom-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+</style>
+
+<script>
+  const zoomOverlay = document.getElementById('zoomOverlay');
+  const zoomImagem = document.getElementById('zoomImagem');
+  const imagens = document.querySelectorAll('.zoom-img');
+
+  imagens.forEach(img => {
+    img.addEventListener('click', () => {
+      zoomImagem.src = img.src;
+      zoomOverlay.style.display = 'flex';
+    });
+  });
+
+  function fecharZoom() {
+    zoomOverlay.style.display = 'none';
+    zoomImagem.src = '';
+  }
+</script>
+</div>
+    </div>
+  </section>
+
+<section id="mapa" style="background-color: #f9f9f9; padding: 40px 20px;" data-aos="fade-up">
+  <div style="max-width: 900px; margin: auto; text-align: center;">
+    <h2 style="color: #556b2f; margin-bottom: 20px;">Como Chegar</h2>
+    <p style="margin-bottom: 20px;">Confira no mapa abaixo como chegar ao local do nosso grande dia!</p>
+    <iframe 
+      title="Mapa do local do casamento"
+      src="https://www.google.com/maps?q=Estrada+de+Santo+Antônio,+425+-+Triângulo,+Porto+Velho+-+RO,+76805-696&output=embed" 
+      width="100%" 
+      height="350" 
+      style="border:0; border-radius: 12px;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  <a href="https://www.google.com/maps/dir/?api=1&destination=Estrada+de+Santo+Antônio,+425+-+Triângulo,+Porto+Velho+-+RO,+76805-696" 
+   target="_blank" 
+   style="display:inline-block; background:#D4AF7F; color:#fff; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">
+  Traçar rota até o local
+</a>
+  </div>
+</section>
+
+<section class="cha-box">
+  <h2>Confirme sua presença no Chá de panela!</h2>
+  <p class="cha-data"><strong>📅 Data:</strong> em breve!</p>
+  <p>Vai ser um momento especial antes do grande dia. Contamos com você! 🥰</p>
+  <button class="btn-cha" onclick="window.location.href='https://wa.me/5569992157680?text=Olá!%20Quero%20confirmar%20minha%20presença%20no%20Chá%20de%20Panela%20😊'">
+    Vou no Chá 🎉
+  </button>
+</section>
+
+<style>
+  .cha-data {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #b84f4f;
+}
+  .cha-box {
+    text-align: center;
+    margin: 60px auto;
+    padding: 40px;
+    max-width: 500px;
+    background-color: #fff8f0;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  }
+
+  .cha-box h2 {
+    margin-bottom: 10px;
+    font-size: 26px;
+    color: #d26a6a;
+  }
+
+  .cha-box p {
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  .btn-cha {
+    background-color: #d26a6a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-cha:hover {
+    background-color: #b84f4f;
+  }
+</style>
+
+  <section id="presentes" data-aos="fade-up">
+  <h2 class="section-title">Presentes e Cotas da Lua de Mel</h2>
+
+<!-- Botão: Presentes na Havan -->
+  <div style="text-align:center; margin: 2rem 0 1rem;">
+    <a href="https://lista.havan.com.br/Convidado/ItensListaPresente/844004" class="btn-presentes" style="
+     background-color: #0046be;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    " onmouseover="this.style.backgroundColor='#0046be'" onmouseout="this.style.backgroundColor='#0046be'">
+      Presentes na Havan
+    </a>
+  </div>
+
+  <section class="cotas" style="padding: 4rem 2rem; background-color: #fdfaf5;" data-aos="fade-up">
+    <h3 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Cotas Especiais para a Lua de Mel</h3>
+
+  <div style="max-width: 600px; margin: 0 auto;">
+  
+    <!-- Cota 1 -->
+    <div style="margin-bottom: 2rem;">
+      <p style="margin-bottom: 0.5rem;">Café da manhã romântico – R$ 50</p>
+      <div style="background-color: #ddd; border-radius: 20px; overflow: hidden; height: 24px;">
+        <div style="width: 0%; background-color: #6b8e23; height: 100%; transition: width 0.5s;">
+       </div>
+      </div>
+      <small>R$ 0 recebidos de R$ 50</small>
+    </div>
+
+    <!-- Cota 2 -->
+    <div style="margin-bottom: 2rem;">
+      <p style="margin-bottom: 0.5rem;">Passeio especial – R$ 100</p>
+      <div style="background-color: #ddd; border-radius: 20px; overflow: hidden; height: 24px;">
+        <div style="width: 0%; background-color: #6b8e23; height: 100%; transition: width 0.5s;"></div>
+      </div>
+      <small>R$ 0 recebidos de R$ 100</small>
+    </div>
+
+    <!-- Cota 3 -->
+    <div style="margin-bottom: 2rem;">
+      <p style="margin-bottom: 0.5rem;">Jantar à luz de velas – R$ 150</p>
+      <div style="background-color: #ddd; border-radius: 20px; overflow: hidden; height: 24px;">
+        <div style="width: 0%; background-color: #6b8e23; height: 100%; transition: width 0.5s;"></div>
+      </div>
+      <small>R$ 0 recebidos de R$ 150</small>
+    </div>
+
+    <!-- Cota 4 -->
+    <div style="margin-bottom: 2rem;">
+      <p style="margin-bottom: 0.5rem;">Hospedagem – R$ 200</p>
+      <div style="background-color: #ddd; border-radius: 20px; overflow: hidden; height: 24px;">
+        <div style="width: 10%; background-color: #6b8e23; height: 100%; transition: width 0.5s;"></div>
+      </div>
+      <small>R$ 20 recebidos de R$ 200</small>
+    </div>
+
+    <!-- Cota 5 -->
+    <div style="margin-bottom: 2rem;">
+      <p style="margin-bottom: 0.5rem;">Experiência surpresa – R$ 250</p>
+      <div style="background-color: #ddd; border-radius: 20px; overflow: hidden; height: 24px;">
+        <div style="width: 0%; background-color: #6b8e23; height: 100%; transition: width 0.5s;"></div>
+      </div>
+      <small>R$ 0 recebidos de R$ 250</small>
+    </div>
+
+    <p style="text-align:center; margin-top: 3rem;">Ou contribua com qualquer valor via Pix:</p>
+</div>
+
+  <div class="pix">
+  <h2>Presente via Pix</h2>
+    <p>Chave Pix: joaovdm3@gmail.com</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=00020126400014br.gov.bcb.pix0118joaovdm3@gmail.com5204000053039865802BR5925JOAO VICTOR DIAS MONTEIRO6009Sao Paulo62290525REC67F484A18DBE21503519716304CA19=150x150" alt="QR Code Pix">
+  </div>
+
+<div style="text-align:center; margin-top: 3rem;">
+  <a href="https://wa.me/5569992826734?text=Olá!%20Gostaria%20de%20contribuir%20com%20uma%20das%20cotas%20da%20lua%20de%20mel!" target="_blank"
+     style="background-color: #25D366; color: white; padding: 1rem 2rem; font-size: 1.2rem; font-weight: bold; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: all 0.3s ease;">
+    <img src="https://img.icons8.com/ios-filled/28/ffffff/whatsapp.png" alt="WhatsApp">
+    Contribuir via WhatsApp
+  </a>
+</div>
+</section>
+
+<section id="rsvp" style="padding: 6rem 2rem; background-color: #fdfaf5; text-align: center;" data-aos="flip-down">
+  <h2 style="font-size: 2.8rem; margin-bottom: 1.5rem; color: #3e3e3e;">Confirme sua presença</h2>
+  <p style="font-size: 1.4rem; color: #666; max-width: 600px; margin: 0 auto 3rem;">
+    Estamos ansiosos para celebrar esse momento com você! Clique no botão abaixo e confirme sua presença via WhatsApp.
+  </p>
+
+  <div style="text-align:center;">
+    <a href="https://wa.me/5569992826734?text=Olá!%20Gostaria%20de%20confirmar%20minha%20presença%20no%20casamento%20de%20João%20e%20Maria.%20Estarei%20presente!"
+       target="_blank"
+       style="text-decoration: none;">
+      <button style="
+        background-color: #6b8e23;
+        color: white;
+        padding: 1.5rem 3rem;
+        font-size: 1.6rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+      "
+      onmouseover="this.style.backgroundColor='#88b14b'; this.style.transform='scale(1.08)'"
+      onmouseout="this.style.backgroundColor='#6b8e23'; this.style.transform='scale(1)'">
+        CONFIRME SUA PRESENÇA
+      </button>
+    </a>
+  </div>
+</section>
+
+
+<section id="album-casal" data-aos="fade-up">
+  <h2 class="section-title">Nosso Álbum</h2>
+  <div class="album-grid">
+  <div style="
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 1rem 0;
+  ">
+    <img src="nos-1.jpg" alt="Foto 1" style="
+      border-radius: 8px;
+      flex: 0 0 auto;
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      scroll-snap-align: start;
+    ">
+    <img src="nos-2.jpg" alt="Foto 2" style="
+      border-radius: 8px;
+      flex: 0 0 auto;
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      scroll-snap-align: start;
+    ">
+    <img src="nos-3.jpg" alt="Foto 3" style="
+      border-radius: 8px;
+      flex: 0 0 auto;
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      scroll-snap-align: start;
+    ">
+<style>
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.album-grid img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#album-casal {
+  background-color: black; /* Define o fundo preto */
+  color: white; /* Define a cor do texto como branco para contraste */
+  padding: 60px 40px; /* Ajuste o padding conforme necessário */
+}
+
+#album-casal img {
+  border: 10px solid #6e4b3a; /* Cor da moldura (um tom de marrom rústico) */
+  box-shadow: 5px 5px 10px rgba(204, 153, 0, 0.8); /* Sombra para dar um toque rústico */
+  border-radius: 8px; /* Arredondamento leve nas bordas */
+  padding: 5px; /* Espaçamento interno para dar mais destaque à moldura */
+  transition: transform 0.3s ease; /* Efeito de transição ao passar o mouse */
+}
+
+#album-casal img:hover {
+  transform: scale(1.05); /* Aumenta a imagem ao passar o mouse */
+}
+</style>
+   </div>
+  </div>
+</section>
+
+
+<section id="mural-recados" data-aos="fade-up">
+  <h2 class="section-title">Mural de Recados</h2>
+  <form id="formRecado">
+    <input type="text" id="nomeRecado" placeholder="Seu nome" required>
+    <textarea id="textoRecado" placeholder="Deixe seu recado para os noivos..." required></textarea>
+    <button type="submit">Enviar Recado</button>
+  </form>
+  <div id="listaRecados" class="confirm-list">
+    <ul id="recados"></ul>
+  </div>
+</section>
+
+<!-- SEÇÃO MÚSICA TEMA COM NOTAS FLUTUANTES -->
+<section id="musica-tema">
+  <div class="container-musica">
+    <div class="texto-musica">
+      <h2>🎵 Ouça Nossa Música Tema</h2>
+      <p>"Cheiro de Mar" Dê o play e ouça!</p>
+    </div>
+    <div class="player-musica">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/30GMS5o33olHdkpdhQT09c?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- ÍCONES FLUTUANTES -->
+  <div class="notas-musicais">
+    <span>🎶</span>
+    <span>🎵</span>
+    <span>🎶</span>
+    <span>🎵</span>
+    <span>🎶</span>
+  </div>
+</section>
+
+<style>
+  #musica-tema {
+    background-color: #121212;
+    color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .container-musica {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .texto-musica h2 {
+    font-size: 2em;
+    color: #1DB954;
+    margin-bottom: 10px;
+  }
+
+  .texto-musica p {
+    font-size: 1em;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+
+  .player-musica iframe {
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .notas-musicais span {
+    position: absolute;
+    font-size: 24px;
+    color: #1DB954;
+    animation: subir 6s linear infinite;
+    opacity: 1;
+  }
+
+  .notas-musicais span:nth-child(1) { left: 10%; animation-delay: 0s; }
+  .notas-musicais span:nth-child(2) { left: 30%; animation-delay: 1s; }
+  .notas-musicais span:nth-child(3) { left: 50%; animation-delay: 2s; }
+  .notas-musicais span:nth-child(4) { left: 70%; animation-delay: 3s; }
+  .notas-musicais span:nth-child(5) { left: 90%; animation-delay: 4s; }
+
+  @keyframes subir {
+    0% { bottom: -30px; transform: translateX(0) rotate(0deg); }
+    50% { transform: translateX(10px) rotate(20deg); }
+    100% { bottom: 100%; transform: translateX(-10px) rotate(-20deg); }
+  }
+</style>
+
+ <footer>
+    <p>Com carinho, Jonny & Mary</p>
+    <div class="social-icons">
+  <!-- Instagram João -->
+  <a href="https://www.instagram.com/jotaav3?igsh=MWNkajU0aTlrNjN2dw%3D%3D&utm_source=qr" target="_blank" title="Instagram João">
+    <img src="instagram-icon-jonny.png" alt="Instagram João">
+  </a>
+
+  <!-- Instagram Maria -->
+  <a href="https://www.instagram.com/blantex_m?igsh=MWdma2k0bW0wYm1kcg%3D%3D&utm_source=qr" target="_blank" title="Instagram Maria">
+    <img src="instagram-icon-mary.png" alt="Instagram Maria">
+  </a>
+
+  <!-- WhatsApp João -->
+  <a href="https://wa.me/5569992826734" target="_blank" title="Falar com João">
+    <img src="whatsapp-icon-jonny.png" alt="WhatsApp João">
+  </a>
+
+  <!-- WhatsApp Maria -->
+  <a href="https://wa.me/5569992157680" target="_blank" title="Falar com Maria">
+    <img src="whatsapp-icon-mary.png" alt="WhatsApp Maria">
+  </a>
+</div>
+
+  </footer>
+
+<script>
+ function toggleMenu() {
+  const sideMenu = document.getElementById('sideMenu');
+  const overlay = document.getElementById('overlay');
+  const currentRight = sideMenu.style.right;
+
+  if (currentRight === '0px') {
+    sideMenu.style.right = '-300px';
+    overlay.style.display = 'none';
+  } else {
+    sideMenu.style.right = '0px';
+    overlay.style.display = 'block';
+  }
+}
+
+function closeMenu() {
+  document.getElementById('sideMenu').style.right = '-300px';
+  document.getElementById('overlay').style.display = 'none';
+}
+</script>
+
+<script>
+// Contagem regressiva
+const dataEvento = new Date("2025-08-30T00:00:00").getTime();
+setInterval(function() {
+  const agora = new Date().getTime();
+  const diferenca = dataEvento - agora;
+
+  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+  const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+  document.getElementById("dias").textContent = dias.toString().padStart(2, '0');
+  document.getElementById("horas").textContent = horas.toString().padStart(2, '0');
+  document.getElementById("minutos").textContent = minutos.toString().padStart(2, '0');
+  document.getElementById("segundos").textContent = segundos.toString().padStart(2, '0');
+}, 1000);
+
+</script>
+
+
+<!-- Plyr JS -->
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+<script>
+  const player = new Plyr('#videoHero', {
+    controls: ['play', 'progress', 'mute', 'volume', 'fullscreen']
+  });
+</script>
+
+<script>
+  const recadoForm = document.getElementById('formRecado');
+  const listaRecados = document.getElementById('recados');
+
+  // Carrega os recados do localStorage ou inicializa uma lista vazia
+  let recados = JSON.parse(localStorage.getItem('recados')) || [];
+
+  // Salva os recados no localStorage
+  function salvarRecados() {
+    localStorage.setItem('recados', JSON.stringify(recados));
+  }
+
+  // Renderiza os recados na tela
+  function renderizarRecados() {
+    listaRecados.innerHTML = '';
+    recados.forEach((r, index) => {
+      const item = document.createElement('li');
+      item.innerHTML = `<strong>${r.nome}</strong>: "${r.texto}" <button onclick="removerRecado(${index})">Remover</button>`;
+      listaRecados.appendChild(item);
+    });
+  }
+
+  // Remove recado por índice
+  function removerRecado(index) {
+    if (confirm('Deseja remover este recado?')) {
+      recados.splice(index, 1);
+      salvarRecados();
+      renderizarRecados();
+    }
+  }
+
+  // Evento de envio do formulário
+  recadoForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('nomeRecado').value.trim();
+    const texto = document.getElementById('textoRecado').value.trim();
+
+    if (nome && texto) {
+      recados.push({ nome, texto });
+      salvarRecados();
+      renderizarRecados();
+      recadoForm.reset();
+    }
+  });
+
+  // Inicializa a renderização ao carregar
+  renderizarRecados();
+</script>
+
+<script>
+  const SENHA_CORRETA = "3008";
+
+  function setCookie(nome, valor, dias) {
+    const d = new Date();
+    d.setTime(d.getTime() + (dias * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = nome + "=" + valor + ";" + expires + ";path=/";
+  }
+
+  function getCookie(nome) {
+    const nomeEQ = nome + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1);
+      if (c.indexOf(nomeEQ) === 0) return c.substring(nomeEQ.length, c.length);
+    }
+    return null;
+  }
+
+  function verificarSenha() {
+    const senha = document.getElementById("senha").value;
+    if (senha === SENHA_CORRETA) {
+      setCookie("acessoLiberado", "true", 30); // cookie válido por 30 dias
+      mostrarConteudo();
+    } else {
+      alert("Senha incorreta!");
+    }
+  }
+
+  function mostrarConteudo() {
+    document.getElementById("senhaContainer").style.display = "none";
+    document.getElementById("conteudo").style.display = "block";
+  }
+
+  // Verifica se o cookie já está presente
+  window.onload = function() {
+    if (getCookie("acessoLiberado") === "true") {
+      mostrarConteudo();
+    }
+  };
+</script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+
+
+</body>
+</html>
